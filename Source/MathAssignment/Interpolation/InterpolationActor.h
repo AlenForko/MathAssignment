@@ -9,9 +9,9 @@
 UENUM(BlueprintType)
 enum class ELerpType : uint8
 {
-	LerpScale,
-	LerpRotate,
-	LerpUpDown
+	LerpScale UMETA(DisplayName = "Lerp Scale"),
+	LerpRotate UMETA(DisplayName = "Lerp Rotate"),
+	LerpUpDown UMETA(DisplayName = "Lerp Up-Down")
 };
 
 UCLASS()
@@ -27,25 +27,34 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	virtual bool ShouldTickIfViewportsOnly() const override;
+	
 protected:
-
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
 	UStaticMeshComponent* StaticMeshComponent;
 
 	UPROPERTY(EditAnywhere)
 	UCurveFloat* CurveFloat;
 
-	float Time = 0;
-	
 	UPROPERTY(EditAnywhere)
 	float Duration = 1;
+	
+	float Time = 0;
 
 	UPROPERTY(EditAnywhere)
-	TArray<bool> SelectedLerps;
+	float UpDownValue;
 
 	UPROPERTY(EditAnywhere)
-	TEnumAsByte<ELerpType> LerpType;
+	float RotationValue = 360;
+	
+	UPROPERTY(EditAnywhere, meta = (DisplayAfter))
+	TMap<ELerpType, bool> SelectedLerps;
+	
+	UPROPERTY()
+	ELerpType LerpType;
 
 	UFUNCTION()
 	bool IsLerpTypeSelected(ELerpType InLerpType) const;
+	
+	UPROPERTY()
+	TMap<ELerpType, FName> LerpTypeNames;
 };
