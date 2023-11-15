@@ -12,7 +12,7 @@ AInterpolationActor::AInterpolationActor()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	SetRootComponent(StaticMeshComponent);
 
-	for (int32 i = 0; i <= static_cast<int32>(ELerpType::LerpUpDown); ++i)
+	for (int32 i = 0; i <= static_cast<int32>(ELerpType::LerpScale); ++i)
 	{
 		ELerpType LerpEnum = static_cast<ELerpType>(i);
 		SelectedLerps.Add(LerpEnum, false);
@@ -44,7 +44,8 @@ void AInterpolationActor::Tick(float DeltaTime)
 		{
 			if (LerpEnum == ELerpType::LerpScale)
 			{
-				SetActorScale3D(FVector(Value, Value, Value));
+				// Fix for the warning "Skipping dirty area creation because of empty bounds."
+				SetActorScale3D(FVector(0.000001 + Value, 0.000001 + Value, 0.000001 + Value));
 			}
 			else if (LerpEnum == ELerpType::LerpRotate)
 			{
