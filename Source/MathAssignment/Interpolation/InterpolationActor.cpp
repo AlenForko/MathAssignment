@@ -12,7 +12,7 @@ AInterpolationActor::AInterpolationActor()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	SetRootComponent(StaticMeshComponent);
 
-	for (int32 i = 0; i <= static_cast<int32>(ELerpType::LerpScale); ++i)
+	for (int32 i = 0; i <= static_cast<int32>(ELerpType::LerpUpDown); ++i)
 	{
 		ELerpType LerpEnum = static_cast<ELerpType>(i);
 		SelectedLerps.Add(LerpEnum, false);

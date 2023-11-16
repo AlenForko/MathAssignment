@@ -1,43 +1,47 @@
 #include "IntersectionActor.h"
 
+#include "IntersectionSubsystem.h"
 #include "Components/SphereComponent.h"
 
 AIntersectionActor::AIntersectionActor()
 {
  	PrimaryActorTick.bCanEverTick = true;
+}
+
+void AIntersectionActor::BeginPlay()
+{
+	Super::BeginPlay();
+
+	const auto SubSystem = GetWorld()->GetSubsystem<UIntersectionSubsystem>();
+	SubSystem->RegisterActor(this);
 	
-	SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
-	SphereComponent->SetupAttachment(RootComponent);
 }
 
 void AIntersectionActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	DebugDrawShape();
 	
-	FVector Sphere1Center = GetActorLocation();
-	float Sphere1Radius = SphereComponent->GetScaledSphereRadius();
-
-	FVector Sphere2Center = OtherSphereActor->GetActorLocation();
-	float Sphere2Radius = OtherSphereActor->SphereComponent->GetScaledSphereRadius();
-
-	float DistanceSquared = FVector::DistSquared(Sphere1Center, Sphere2Center);
-	float SumOfRadiiSquared = FMath::Square(Sphere1Radius + Sphere2Radius);
-
-	bool bIntersects = DistanceSquared <= SumOfRadiiSquared;
-	
-	if (bIntersects)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Intersecting!"));
-		DrawDebugSphere(GetWorld(), GetActorLocation(), SphereComponent->GetScaledSphereRadius(), 32, FColor::Red, false, 5, 1, 1);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Not Intersecting!"));
-		DrawDebugSphere(GetWorld(), GetActorLocation(), SphereComponent->GetScaledSphereRadius(), 32, FColor::Green, false, 5, 1, 0.5);
-	}
+	ShapeColor = FColor::Green;
 }
 
 bool AIntersectionActor::ShouldTickIfViewportsOnly() const
 {
 	return true;
+}
+
+void AIntersectionActor::DebugDrawShape() const
+{
+	switch (IntersectionType.GetValue())
+	{
+	case EIntersectionType::Sphere:
+		DrawDebugSphere(GetWorld(), GetActorLocation(), SphereRadius, 32, ShapeColor, false, -1, 1, 0.5);
+		break;
+		
+	case EIntersectionType::AABB:
+		DrawDebugBox(GetWorld(), GetActorLocation(), BoxSize, ShapeColor, false, -1, 1, 0.5f);
+		break;
+		
+	default: ;
+	}
 }

@@ -6,6 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "IntersectionActor.generated.h"
 
+UENUM(BlueprintType)
+enum class EIntersectionType
+{
+	AABB,
+	Sphere
+};
+
 class USphereComponent;
 UCLASS()
 class MATHASSIGNMENT_API AIntersectionActor : public AActor
@@ -18,13 +25,22 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void BeginPlay() override;
+
 	virtual bool ShouldTickIfViewportsOnly() const override;
+
+	UPROPERTY(EditAnywhere)
+	TEnumAsByte<EIntersectionType> IntersectionType;
+
+	UPROPERTY(EditAnywhere)
+	float SphereRadius = 32;
+
+	FColor ShapeColor = FColor::Green;
+
+	UPROPERTY(EditAnywhere)
+	FVector BoxSize;
 	
 protected:
-	UPROPERTY(VisibleAnywhere)
-	USphereComponent* SphereComponent;
 	
-	UPROPERTY(EditAnywhere)
-	AIntersectionActor* OtherSphereActor;
-	
+	void DebugDrawShape() const;
 };
