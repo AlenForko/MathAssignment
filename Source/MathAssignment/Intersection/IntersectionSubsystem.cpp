@@ -4,6 +4,7 @@
 #include "IntersectionSubsystem.h"
 #include "IntersectionActor.h"
 #include "IntersectionLibrary.h"
+#include "MathAssignment/Collision/CollisionActor.h"
 
 void UIntersectionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -14,23 +15,45 @@ void UIntersectionSubsystem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
 	for (const auto ActorA : IntersectionActors)
 	{
+		ActorA->SetActorLocation(ActorA->GetActorLocation() + ActorA->Velocity * DeltaTime);
+		
 		for(const auto ActorB : IntersectionActors)
 		{
 			if(ActorA == ActorB) continue;
-
+			
 			if(ActorA->IntersectionType == EIntersectionType::Sphere &&
 				ActorB->IntersectionType == EIntersectionType::Sphere)
 			{
+				FVector ContactPoint;
 				if(UIntersectionLibrary::SphereToSphereIntersection(
 					ActorA->GetActorLocation(),
 					ActorA->SphereRadius,
 					ActorB->GetActorLocation(),
-					ActorB->SphereRadius))
+					ActorB->SphereRadius,
+					ContactPoint))
 				{
+					DrawDebugPoint(
+						GetWorld(),
+						ContactPoint,
+						40.f,
+						FColor::Black
+						);
+					
+					DrawDebugLine(GetWorld(),
+						ActorA->GetActorLocation(),
+						ActorB->GetActorLocation(),
+						FColor::Black,
+						false,
+						-1,
+						0,
+						2);
+					
 					ActorA->ShapeColor = FColor::Red;
 					ActorB->ShapeColor = FColor::Red;
+					ActorA->HandleCollisionResponse(ActorB, ContactPoint);
 				}
 			}
 

@@ -38,9 +38,12 @@ public:
 	FColor ShapeColor = FColor::Green;
 
 	UPROPERTY(EditAnywhere)
+	FVector Velocity = FVector::Zero();
+	
+	UPROPERTY(EditAnywhere)
 	FVector BoxSize;
-	
-protected:
-	
-	void DebugDrawShape() const;
+
+	virtual void DebugDrawShape() const;
+
+	virtual void HandleCollisionResponse(AIntersectionActor* OtherActor, const FVector& ContactPoint);
 };

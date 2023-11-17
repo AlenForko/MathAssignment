@@ -1,7 +1,6 @@
 #include "IntersectionActor.h"
 
 #include "IntersectionSubsystem.h"
-#include "Components/SphereComponent.h"
 
 AIntersectionActor::AIntersectionActor()
 {
@@ -21,7 +20,6 @@ void AIntersectionActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	DebugDrawShape();
-	
 	ShapeColor = FColor::Green;
 }
 
@@ -44,4 +42,13 @@ void AIntersectionActor::DebugDrawShape() const
 		
 	default: ;
 	}
+}
+
+void AIntersectionActor::HandleCollisionResponse(AIntersectionActor* OtherActor, const FVector& ContactPoint)
+{
+	FVector CollisionNormal = -(OtherActor->GetActorLocation() - ContactPoint).GetSafeNormal();
+	Velocity = FMath::GetReflectionVector(Velocity, CollisionNormal);
+	
+	UE_LOG(LogTemp, Warning, TEXT("CollisionNormal: %s"), *CollisionNormal.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("New Velocity: %s"), *Velocity.ToString());
 }
