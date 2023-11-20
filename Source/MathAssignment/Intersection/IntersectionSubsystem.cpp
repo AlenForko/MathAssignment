@@ -4,7 +4,6 @@
 #include "IntersectionSubsystem.h"
 #include "IntersectionActor.h"
 #include "IntersectionLibrary.h"
-#include "MathAssignment/Collision/CollisionActor.h"
 
 void UIntersectionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {

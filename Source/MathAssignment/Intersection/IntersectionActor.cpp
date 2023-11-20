@@ -13,7 +13,6 @@ void AIntersectionActor::BeginPlay()
 
 	const auto SubSystem = GetWorld()->GetSubsystem<UIntersectionSubsystem>();
 	SubSystem->RegisterActor(this);
-	
 }
 
 void AIntersectionActor::Tick(float DeltaTime)
