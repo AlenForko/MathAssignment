@@ -18,7 +18,7 @@ During this assignment, the task was to create objects that trigger different re
 
 This library function returns an integer, which is then translated into boolean values using an enumeration. Subsequently, these boolean values are employed within my ['StateActor'](https://github.com/AlenForko/MathAssignment/blob/main/Source/MathAssignment/State%26Context/StateActor.cpp). The `StateActor` utilizes this information to dynamically determine the object's position in relation to others, thus enabling the appropriate reactions based on the calculated context.
 
-// Add GIF here
+![State&Context](/GIFS/State.gif?raw=true)
 
 ### [Interpolation](https://github.com/AlenForko/MathAssignment/tree/main/Source/MathAssignment/Interpolation)
 
@@ -28,7 +28,7 @@ A notable challenge emerged when the 'SelectedLerps' showed only indexes instead
 
 Based on the chosen lerp type and its corresponding value, the object undergoes continuous interpolation, smoothly transitioning between states as time progresses.
 
-// Add GIF here
+![Interpolation](/GIFS/Interpolation.gif?raw=true)
 
 ### [Intersection](https://github.com/AlenForko/MathAssignment/tree/main/Source/MathAssignment/Intersection)
 
@@ -38,7 +38,7 @@ As these functions became the foundation, I seamlessly integrated them into the 
 
 With the [IntersectionActor](https://github.com/AlenForko/MathAssignment/blob/main/Source/MathAssignment/Intersection/IntersectionActor.cpp) I only draw the shape of the object and then call it in the subsystem to do it's magic.
 
-// GIF here
+![Intersection](/GIFS/Intersection.gif?raw=true)
 
 ### [Collision](https://github.com/AlenForko/MathAssignment/tree/main/Source/MathAssignment/Intersection)
 
@@ -46,7 +46,7 @@ To enhance the intersection functionality, I endeavored to implement a custom 's
 
 Once the contact point was successfully established, I implemented a dedicated function within the actor class to manage collision events. When actors intersect, this function retrieves the normal of the collision point and utilizes it to reflect the velocity, effectively simulating the impact and response associated with a collision scenario.
 
-// GIF here
+![Collision](/GIFS/Collision.gif?raw=true)
 
 ### [Noise](https://github.com/AlenForko/MathAssignment/tree/main/Source/MathAssignment/Noise)
 
@@ -54,4 +54,4 @@ For the final exercise in this assignment, I delved into the fascinating realm o
 
 Utilizing Unreal Engine's 'ProceduralMeshComponent,' I created a function within the [TerrainGenerator](https://github.com/AlenForko/MathAssignment/blob/main/Source/MathAssignment/Noise/TerrainGenerator.cpp) class to dynamically generate terrain meshes by calculating the vertices and triangles. Using the 'PerlinNoise2D' function, I successfully achieved the creation of smooth and aesthetically pleasing hills which generate throughout the whole terrain.
 
-// GIF here
+![Noise](/GIFS/Noise.gif?raw=true)
